@@ -2042,7 +2042,7 @@
 <div id="toast"></div>
 
 <!-- 카카오맵 SDK -->
-<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ae127be5a6aab9607babb118c25feb0f&libraries=services&autoload=false"></script>
+<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=292ea33281f52f28bb790bd726a77ffb&libraries=services"></script>
 <script>
 // ==========================================
 // 🔧 콤보박스 헬퍼
@@ -2990,23 +2990,19 @@ function applyAllMapFilters() {
 function applyMapSearch() { applyAllMapFilters(); }
 
 function initKakaoMap(mapOrgs) {
-  kakao.maps.load(function() {
-    var container = document.getElementById('map-container');
-    // 광주효동초 좌표
-    var center = new kakao.maps.LatLng(35.1731, 126.9163);
-    var options = { center: center, level: 5 };
-    kakaoMap = new kakao.maps.Map(container, options);
+  var container = document.getElementById('map-container');
+  var center = new kakao.maps.LatLng(35.1731, 126.9163);
+  var options = { center: center, level: 5 };
+  kakaoMap = new kakao.maps.Map(container, options);
 
-    // 효동초 마커
-    var schoolMarker = new kakao.maps.Marker({ position: center, map: kakaoMap });
-    var schoolInfo = new kakao.maps.InfoWindow({
-      content: '<div style="padding:8px 12px;font-size:0.82rem;font-weight:700;white-space:nowrap;">🏡 광주효동초등학교</div>'
-    });
-    kakao.maps.event.addListener(schoolMarker, 'click', function() {
-      schoolInfo.open(kakaoMap, schoolMarker);
-    });
-    placeOrgMarkers(mapOrgs);
+  var schoolMarker = new kakao.maps.Marker({ position: center, map: kakaoMap });
+  var schoolInfo = new kakao.maps.InfoWindow({
+    content: '<div style="padding:8px 12px;font-size:0.82rem;font-weight:700;white-space:nowrap;">🏡 광주효동초등학교</div>'
   });
+  kakao.maps.event.addListener(schoolMarker, 'click', function() {
+    schoolInfo.open(kakaoMap, schoolMarker);
+  });
+  placeOrgMarkers(mapOrgs);
 }
 
 function placeOrgMarkers(mapOrgs) {
