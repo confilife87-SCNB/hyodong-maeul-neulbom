@@ -402,6 +402,7 @@
     .btn-hero:active { background: rgba(255,255,255,0.35); }
     .btn-hero-icon { font-size: 1.5rem; }
 
+   
     /* =============================================
        🏷️ 카테고리 그리드
     ============================================= */
@@ -1510,11 +1511,16 @@
       </button>
 
       <!-- 학교 연락처 -->
-      <div class="portal-school-info">
-        🏫 <strong>광주효동초등학교</strong><br>
-        📍 광주광역시 북구 서양로 99<br>
-        📞 <a href="tel:062-571-1411">062-571-1411</a>
-      </div>
+<div class="portal-school-info">
+  🏫 <strong>광주효동초등학교</strong><br>
+  📍 광주광역시 북구 서양로 99<br>
+  📞 <span 
+    onclick="handleContact('0625202800','call')"
+    style="cursor:pointer;color:var(--purple-deep);font-weight:700;">
+    062)520-2800
+  </span>
+  <span style="font-size:0.78rem;color:var(--text-sub);">(08:30~16:30)</span>
+</div>
 
       <div style="font-size:0.75rem;color:var(--text-sub);">광주효동초 학교밖 늘봄(저녁늘봄) 안내</div>
 
@@ -1545,6 +1551,25 @@
         </div>
       </div>
       <div class="search-result-count" id="search-result-count" style="display:none;"></div>
+      
+      <!-- 프로그램/기관 탭 -->
+      <div style="display:flex;gap:0;margin:0 20px 14px;border-radius:var(--radius-sm);overflow:hidden;border:1.5px solid var(--glass-border);box-shadow:var(--glass-shadow);">
+        <button id="tab-prog" onclick="switchMainTab('prog')"
+          style="flex:1;padding:12px 8px;font-size:0.88rem;font-weight:700;border:none;cursor:pointer;
+                 background:var(--grad-btn-primary);color:white;transition:all 0.15s;">
+          📋 프로그램
+        </button>
+        <button id="tab-org" onclick="switchMainTab('org')"
+          style="flex:1;padding:12px 8px;font-size:0.88rem;font-weight:700;border:none;cursor:pointer;
+                 background:var(--glass);color:var(--text-sub);transition:all 0.15s;">
+          🏢 기관
+        </button>
+      </div>
+
+      <div id="cat-grid-area"></div>
+      <div id="prog-content-area"></div>
+      <div id="org-content-area" style="display:none;"></div>
+      <div class="bottom-links"><div class="update-time" id="update-time"></div></div>
       <div id="cat-grid-area"></div>
       <div id="prog-content-area"></div>
       <div class="bottom-links"><div class="update-time" id="update-time"></div></div>
@@ -2386,6 +2411,82 @@ function clearMainSearch() {
   document.getElementById('search-result-count').style.display = 'none';
   buildCatGrid();
   renderProgList();
+}
+
+var mainTab = 'prog'; // 글로벌 변수 추가
+
+function switchMainTab(tab) {
+  mainTab = tab;
+  var tabProg = document.getElementById('tab-prog');
+  var tabOrg  = document.getElementById('tab-org');
+  var progArea = document.getElementById('prog-content-area');
+  var catArea  = document.getElementById('cat-grid-area');
+  var orgArea  = document.getElementById('org-content-area');
+
+  if (tab === 'prog') {
+    tabProg.style.background = 'var(--grad-btn-primary)';
+    tabProg.style.color = 'white';
+    tabOrg.style.background  = 'var(--glass)';
+    tabOrg.style.color  = 'var(--text-sub)';
+    catArea.style.display  = 'block';
+    progArea.style.display = 'block';
+    orgArea.style.display  = 'none';
+  } else {
+    tabOrg.style.background  = 'var(--grad-btn-primary)';
+    tabOrg.style.color  = 'white';
+    tabProg.style.background = 'var(--glass)';
+    tabProg.style.color = 'var(--text-sub)';
+    catArea.style.display  = 'none';
+    progArea.style.display = 'none';
+    orgArea.style.display  = 'block';
+    renderOrgList();
+  }
+}
+
+function renderOrgList() {
+  var area = document.getElementById('org-content-area');
+  if (!allOrgs.length) {
+    area.innerHTML = '<div class="empty-state"><div class="empty-icon">🏢</div>등록된 기관이 없습니다.</div>';
+    return;
+  }
+
+  var h = '<div class="prog-list">';
+  allOrgs.forEach(function(org) {
+    var icon     = org.type === '학교밖 늘봄' ? '📚' : '🏠';
+    var typeBadge = org.type === '학교밖 늘봄' ? 'badge-blue' : 'badge-green';
+    var orgProgs = allProgs.filter(function(p) { return p.orgName === org.name; });
+    var openCount = orgProgs.filter(function(p) { return p.status === '모집중'; }).length;
+
+    h += '<div class="p-card" onclick="openOrgDetailFrom(\''+esc(org.name).replace(/'/g,"\\'")+'\')">'; 
+    h += '<div class="p-card-header-bar">';
+    h += '<span class="badge '+typeBadge+'">'+icon+' '+(org.type||'기관')+'</span>';
+    if (org.transport === '있음') {
+      h += '<span class="badge badge-orange">🚌 통학버스</span>';
+    }
+    h += '</div>';
+    h += '<div class="p-card-main">';
+    h += '<div class="p-card-name">'+icon+' '+esc(org.name)+'</div>';
+    if (vp(org.address)) {
+      h += '<div class="p-card-org">📍 '+esc(org.address)+'</div>';
+    }
+    h += '</div>';
+    h += '<div class="p-card-summary">';
+    h += '<div class="p-card-meta">';
+    if (vp(org.hours)) {
+      h += '<span class="p-card-meta-item">🕐 '+esc(org.hours)+'</span>';
+    }
+    if (orgProgs.length > 0) {
+      h += '<span class="p-card-meta-divider"></span>';
+      h += '<span class="p-card-meta-item">📋 프로그램 '+orgProgs.length+'개</span>';
+    }
+    if (openCount > 0) {
+      h += '<span class="p-card-meta-divider"></span>';
+      h += '<span class="p-card-meta-item" style="color:var(--green-deep);">🟢 모집중 '+openCount+'개</span>';
+    }
+    h += '</div></div></div>';
+  });
+  h += '</div>';
+  area.innerHTML = h;
 }
 
 function buildCatGrid() {
