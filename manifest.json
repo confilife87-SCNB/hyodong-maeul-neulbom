@@ -1,0 +1,21 @@
+{
+  "name": "효동초 마을 저녁늘봄 안내",
+  "short_name": "효동저녁늘봄",
+  "description": "광주효동초등학교 마을 저녁늘봄 안내 포털",
+  "start_url": "/hyodong-maeul-neulbom/",
+  "display": "standalone",
+  "background_color": "#f0f4ff",
+  "theme_color": "#7c3aed",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
