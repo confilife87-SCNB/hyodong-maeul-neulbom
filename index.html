@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>효동초 마을 저녁늘봄 안내</title>
+  <title>광주효동초 늘봄연계 기관 안내</title>
 
   <!-- PWA -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#7c3aed">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="효동저녁늘봄">
+  <meta name="apple-mobile-web-app-title" content="효동초늘봄기관">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
 
   <!-- 학교 연락처 -->
@@ -1474,7 +1474,7 @@
   <!-- 🔝 헤더 -->
   <div class="header">
     <div style="width:34px;"></div>
-    <div class="title-text" onclick="goPortal()">🏡 효동초 마을 저녁늘봄</div>
+    <div class="title-text" onclick="goPortal()">🏡 광주효동초 늘봄기관</div>
     <button class="btn-theme" onclick="toggleDark()">☀️</button>
   </div>
 
@@ -1488,7 +1488,7 @@
     <div class="portal">
 
       <div class="portal-logo">🏡</div>
-      <div class="portal-title">광주효동초등학교<br>마을 저녁늘봄 안내</div>
+      <div class="portal-title">광주효동초등학교<br> 늘봄기관 안내</div>
       <div class="portal-sub">학교밖 늘봄 · 지역사회 돌봄</div>
 
       <button class="btn-portal parent" onclick="openParentView()">
@@ -1522,7 +1522,7 @@
   <span style="font-size:0.78rem;color:var(--text-sub);">(08:30~16:30)</span>
 </div>
 
-      <div style="font-size:0.75rem;color:var(--text-sub);">광주효동초 학교밖 늘봄(저녁늘봄) 안내</div>
+      <div style="font-size:0.75rem;color:var(--text-sub);">광주효동초 학교밖 늘봄 기관 안내</div>
 
     </div>
   </div>
@@ -1534,7 +1534,7 @@
     <div class="view-content">
       <div class="hero">
         <div class="hero-title">하교 후, 우리 아이 어디서 뭐 하지?</div>
-        <div class="hero-sub">효동초 주변 마을 저녁늘봄 및<br>지역사회 돌봄 기관을 한눈에 확인하세요.</div>
+        <div class="hero-sub">효동초 연계 늘봄기관 및<br>지역사회 돌봄 기관을 한눈에 확인하세요.</div>
         <div class="hero-buttons">
           <button class="btn-hero" onclick="openRecFlow()"><div class="btn-hero-icon">🎯</div>맞춤 추천</button>
           <button class="btn-hero" onclick="openMapView()"><div class="btn-hero-icon">🗺️</div>지도에서 찾기</button>
@@ -3845,7 +3845,7 @@ function saveAdminPwd() {
 
 function exportClipboard() {
   if (!adminData||!adminData.stats) return;
-  var lines=['광주효동초 마을 저녁늘봄 현황','생성일: '+new Date().toLocaleDateString('ko-KR'),'','기관명\t유형\t프로그램\t이용학생'];
+  var lines=['광주효동초 늘봄기관 현황','생성일: '+new Date().toLocaleDateString('ko-KR'),'','기관명\t유형\t프로그램\t이용학생'];
   (adminData.stats.orgStats||[]).forEach(function(s){ lines.push(s.name+'\t'+s.type+'\t'+s.progCount+'\t'+s.studentCount); });
   var text=lines.join('\n');
   if (navigator.clipboard) navigator.clipboard.writeText(text).then(function(){ showToast('📋 복사!'); });
